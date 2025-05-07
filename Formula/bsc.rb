@@ -1,26 +1,38 @@
-# Documentation: https://docs.brew.sh/Formula-Cookbook
-#                https://rubydoc.brew.sh/Formula
-# PLEASE REMOVE ALL GENERATED COMMENTS BEFORE SUBMITTING YOUR PULL REQUEST!
 class Bsc < Formula
   desc "Bluespec Compiler (BSC)"
   homepage "https://github.com/B-Lang-org/bsc"
   url "https://github.com/B-Lang-org/bsc.git", tag: "2025.01.1"
   license "BSD-3-Clause"
-  url "https://github.com/B-Lang-org/bsc.git", branch: "main"
+  head "https://github.com/B-Lang-org/bsc.git", branch: "main"
 
-  # depends_on "cmake" => :build
+  depends_on "autoconf" => :build
+  depends_on "cabal-install" => :build
+  depends_on "gcc@14" => :build
+  depends_on "ghc" => :build
+  depends_on "gmp" => :build
+  depends_on "gperf" => :build
+  depends_on "make" => :build
+  depends_on "pkg-config" => :build
 
-  # Additional dependency
-  # resource "" do
-  #   url ""
-  #   sha256 ""
-  # end
+  depends_on "icarus-verilog"
+  depends_on "tcl-tk@8"
 
   def install
-    # Remove unrecognized options if they cause configure to fail
-    # https://rubydoc.brew.sh/Formula.html#std_configure_args-instance_method
-    # system "./configure", "--disable-silent-rules", *std_configure_args
-    # system "cmake", "-S", ".", "-B", "build", *std_cmake_args
+    system "cabal", "update"
+    system "cabal", "v1-install",
+           "old-time",
+           "regex-compat",
+           "split",
+           "syb"
+
+    with_env(PATH: "#{Formula["gcc"].opt_bin}:#{ENV["PATH"]}") do
+      ENV["PREFIX"] = prefix
+      ENV["CC"] = "gcc-14"
+      ENV["CXX"] = "g++-14"
+      ENV["GHCJOBS"] = "4"
+      ENV["GHCRTSFLAGS"] = "+RTS -M4500M -A128m -RTS"
+      system "make", "install-src", "-j", Hardware::CPU.cores
+    end
   end
 
   test do
