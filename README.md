@@ -2,15 +2,15 @@
 
 ## How do I install these formulae?
 
-`brew install gaoweifan/bluespec/<formula>`
+`brew install gaoweifan/bluespec/bsc`
 
-Or `brew tap gaoweifan/bluespec` and then `brew install <formula>`.
+Or `brew tap gaoweifan/bluespec` and then `brew install bsc`.
 
 Or, in a `brew bundle` `Brewfile`:
 
 ```ruby
 tap "gaoweifan/bluespec"
-brew "<formula>"
+brew "bsc"
 ```
 
 ## Documentation
