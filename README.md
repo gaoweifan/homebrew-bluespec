@@ -1,4 +1,4 @@
-# Gaoweifan Bluespec
+# Homebrew Tap for Bluespec
 
 ## How do I install these formulae?
 
