@@ -13,7 +13,6 @@ class Bsc < Formula
   depends_on "gperf" => :build
   depends_on "make" => :build
   depends_on "pkg-config" => :build
-
   depends_on "icarus-verilog"
   depends_on "tcl-tk@8"
 
@@ -26,12 +25,14 @@ class Bsc < Formula
            "syb"
 
     with_env(PATH: "#{Formula["gcc"].opt_bin}:#{ENV["PATH"]}") do
-      ENV["PREFIX"] = prefix
+      ENV["PREFIX"] = libexec
       ENV["CC"] = "gcc-14"
       ENV["CXX"] = "g++-14"
       ENV["GHCJOBS"] = "4"
       ENV["GHCRTSFLAGS"] = "+RTS -M4500M -A128m -RTS"
       system "make", "install-src", "-j", Hardware::CPU.cores
+      bin.write_exec_script libexec/"bin/bsc"
+      bin.write_exec_script libexec/"bin/bluetcl"
     end
   end
 
