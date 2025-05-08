@@ -24,7 +24,7 @@ class Bsc < Formula
            "split",
            "syb"
 
-    with_env(PATH: "#{Formula["gcc"].opt_bin}:#{ENV["PATH"]}") do
+    with_env(PATH: "#{Formula["gcc@14"].opt_bin}:#{ENV["PATH"]}") do
       ENV["PREFIX"] = libexec
       ENV["CC"] = "gcc-14"
       ENV["CXX"] = "g++-14"
