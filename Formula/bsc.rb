@@ -11,7 +11,7 @@ class Bsc < Formula
   depends_on "gperf" => :build
   depends_on "make" => :build
   depends_on "pkg-config" => :build
-  depends_on "gcc@14"
+  depends_on "gcc@13"
   depends_on "gmp"
   depends_on "icarus-verilog"
   depends_on "tcl-tk@8"
@@ -24,10 +24,10 @@ class Bsc < Formula
            "split",
            "syb"
 
-    with_env(PATH: "#{Formula["gcc@14"].opt_bin}:#{ENV["PATH"]}") do
+    with_env(PATH: "#{Formula["gcc@13"].opt_bin}:#{ENV["PATH"]}") do
       ENV["PREFIX"] = libexec
-      ENV["CC"] = "gcc-14"
-      ENV["CXX"] = "g++-14"
+      ENV["CC"] = "gcc-13"
+      ENV["CXX"] = "g++-13"
       ENV["GHCJOBS"] = "4"
       ENV["GHCRTSFLAGS"] = "+RTS -M4500M -A128m -RTS"
       system "make", "install-src", "-j", Hardware::CPU.cores
