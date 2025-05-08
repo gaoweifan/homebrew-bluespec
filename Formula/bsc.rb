@@ -7,12 +7,12 @@ class Bsc < Formula
 
   depends_on "autoconf" => :build
   depends_on "cabal-install" => :build
-  depends_on "gcc@14" => :build
   depends_on "ghc" => :build
-  depends_on "gmp" => :build
   depends_on "gperf" => :build
   depends_on "make" => :build
   depends_on "pkg-config" => :build
+  depends_on "gcc@14"
+  depends_on "gmp"
   depends_on "icarus-verilog"
   depends_on "tcl-tk@8"
 
@@ -33,6 +33,7 @@ class Bsc < Formula
       system "make", "install-src", "-j", Hardware::CPU.cores
       bin.write_exec_script libexec/"bin/bsc"
       bin.write_exec_script libexec/"bin/bluetcl"
+      lib.install_symlink Dir[libexec/"lib"/shared_library("*")]
     end
   end
 
