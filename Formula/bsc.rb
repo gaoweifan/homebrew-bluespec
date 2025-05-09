@@ -19,6 +19,7 @@ class Bsc < Formula
 
   uses_from_macos "bison" => :build
   uses_from_macos "flex" => :build
+  uses_from_macos "libffi"
 
   def install
     system "cabal", "v2-update"
