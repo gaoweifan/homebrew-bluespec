@@ -35,8 +35,8 @@ class Bsc < Formula
 
     with_env(
       PREFIX:           libexec,
-      GHCJOBS:          "2",
-      GHCRTSFLAGS:      "+RTS -M2G -A64m -RTS",
+      GHCJOBS:          ENV.make_jobs.to_s,
+      GHCRTSFLAGS:      "+RTS -M4G -A128m -RTS",
       GHC_PACKAGE_PATH: "#{package_db}:",
     ) do
       system "make", "install-src", "-j#{ENV.make_jobs}"
