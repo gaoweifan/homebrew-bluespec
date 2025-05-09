@@ -21,17 +21,22 @@ class Bsc < Formula
   uses_from_macos "flex" => :build
 
   def install
-    system "cabal", "update"
-    system "cabal", "v1-install",
-           "old-time",
-           "regex-compat",
-           "split",
-           "syb"
+    system "cabal", "v2-update"
+    system "cabal", "v2-install", "--lib",
+                    "old-time",
+                    "regex-compat",
+                    "split",
+                    "syb"
+
+    store_dir = `cabal path --store-dir`.chomp
+    ghc_version = `ghc --numeric-version`.chomp
+    package_db = `echo #{store_dir}/ghc-#{ghc_version}*/package.db`.chomp
 
     with_env(
-      PREFIX:      libexec,
-      GHCJOBS:     ENV.make_jobs.to_s,
-      GHCRTSFLAGS: "+RTS -M4500M -A128m -RTS",
+      PREFIX:           libexec,
+      GHCJOBS:          ENV.make_jobs.to_s,
+      GHCRTSFLAGS:      "+RTS -M4500M -A128m -RTS",
+      GHC_PACKAGE_PATH: "#{package_db}:",
     ) do
       system "make", "install-src", "-j#{ENV.make_jobs}"
     end
