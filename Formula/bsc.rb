@@ -30,10 +30,10 @@ class Bsc < Formula
 
     with_env(
       PREFIX:      libexec,
-      GHCJOBS:     Hardware::CPU.cores.to_s,
+      GHCJOBS:     ENV.make_jobs.to_s,
       GHCRTSFLAGS: "+RTS -M4500M -A128m -RTS",
     ) do
-      system "make", "install-src", "-j", Hardware::CPU.cores
+      system "make", "install-src", "-j#{ENV.make_jobs}"
     end
 
     bin.write_exec_script libexec/"bin/bsc"
