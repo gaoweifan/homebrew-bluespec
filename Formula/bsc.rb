@@ -1,7 +1,9 @@
 class Bsc < Formula
   desc "Bluespec Compiler (BSC)"
   homepage "https://github.com/B-Lang-org/bsc"
-  url "https://github.com/B-Lang-org/bsc.git", tag: "2025.01.1"
+  url "https://github.com/B-Lang-org/bsc.git",
+    tag:      "2025.01.1",
+    revision: "65e3a87a17f6b9cf38cbb7b6ad7a4473f025c098"
   license "BSD-3-Clause"
   head "https://github.com/B-Lang-org/bsc.git", branch: "main"
 
@@ -10,7 +12,7 @@ class Bsc < Formula
   depends_on "ghc" => :build
   depends_on "gperf" => :build
   depends_on "make" => :build
-  depends_on "pkg-config" => :build
+  depends_on "pkgconf" => :build
   depends_on "gmp"
   depends_on "icarus-verilog"
   depends_on "tcl-tk@8"
