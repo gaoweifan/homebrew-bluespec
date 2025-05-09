@@ -25,7 +25,7 @@ class Bsc < Formula
 
     with_env(
       PREFIX:      libexec,
-      GHCJOBS:     "#{Hardware::CPU.cores}",
+      GHCJOBS:     Hardware::CPU.cores.to_s,
       GHCRTSFLAGS: "+RTS -M4500M -A128m -RTS",
     ) do
       system "make", "install-src", "-j", Hardware::CPU.cores
@@ -71,26 +71,25 @@ class Bsc < Formula
     EOS
 
     # Checking Verilog generation
-    system "#{bin}/bsc", "-verilog",
-                         "FibOne.bsv"
+    system bin/"bsc", "-verilog",
+                      "FibOne.bsv"
 
     # Checking Verilog simulation
-    system "#{bin}/bsc", "-vsim", "verilator",
-                         "-e", "mkFibOne",
-                         "-o", "mkFibOne.vexe",
-                         "mkFibOne.v"
-    assert_match expected_output, shell_output("./mkFibOne.vexe")
-    
+    system bin/"bsc", "-vsim", "iverilog",
+                      "-e", "mkFibOne",
+                      "-o", "mkFibOne.vexe",
+                      "mkFibOne.v"
+    assert_equal expected_output, shell_output("./mkFibOne.vexe")
 
     # Checking Bluesim object generation
-    system "#{bin}/bsc", "-sim",
-                         "FibOne.bsv"
+    system bin/"bsc", "-sim",
+                      "FibOne.bsv"
 
     # Checking Bluesim simulation
-    system "#{bin}/bsc", "-sim",
-                         "-e", "mkFibOne",
-                         "-o", "mkFibOne.bexe",
-                         "mkFibOne.ba"
+    system bin/"bsc", "-sim",
+                      "-e", "mkFibOne",
+                      "-o", "mkFibOne.bexe",
+                      "mkFibOne.ba"
     assert_equal expected_output, shell_output("./mkFibOne.bexe")
   end
 end
