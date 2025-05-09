@@ -17,6 +17,9 @@ class Bsc < Formula
   depends_on "icarus-verilog"
   depends_on "tcl-tk@8"
 
+  uses_from_macos "bison" => :build
+  uses_from_macos "flex" => :build
+
   def install
     system "cabal", "update"
     system "cabal", "v1-install",
