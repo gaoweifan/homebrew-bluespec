@@ -11,7 +11,6 @@ class Bsc < Formula
   depends_on "gperf" => :build
   depends_on "make" => :build
   depends_on "pkg-config" => :build
-  depends_on "gcc@13"
   depends_on "gmp"
   depends_on "icarus-verilog"
   depends_on "tcl-tk@8"
@@ -24,17 +23,17 @@ class Bsc < Formula
            "split",
            "syb"
 
-    with_env(PATH: "#{Formula["gcc@13"].opt_bin}:#{ENV["PATH"]}") do
-      ENV["PREFIX"] = libexec
-      ENV["CC"] = "gcc-13"
-      ENV["CXX"] = "g++-13"
-      ENV["GHCJOBS"] = "4"
-      ENV["GHCRTSFLAGS"] = "+RTS -M4500M -A128m -RTS"
+    with_env(
+      PREFIX:      libexec,
+      GHCJOBS:     "#{Hardware::CPU.cores}",
+      GHCRTSFLAGS: "+RTS -M4500M -A128m -RTS",
+    ) do
       system "make", "install-src", "-j", Hardware::CPU.cores
-      bin.write_exec_script libexec/"bin/bsc"
-      bin.write_exec_script libexec/"bin/bluetcl"
-      lib.install_symlink Dir[libexec/"lib/SAT"/shared_library("*")]
     end
+
+    bin.write_exec_script libexec/"bin/bsc"
+    bin.write_exec_script libexec/"bin/bluetcl"
+    lib.install_symlink Dir[libexec/"lib/SAT"/shared_library("*")]
   end
 
   test do
