@@ -45,6 +45,9 @@ class Bsc < Formula
     bin.write_exec_script libexec/"bin/bsc"
     bin.write_exec_script libexec/"bin/bluetcl"
     lib.install_symlink Dir[libexec/"lib/SAT"/shared_library("*")]
+    lib.install_symlink libexec/"lib/Bluesim/libbskernel.a"
+    lib.install_symlink libexec/"lib/Bluesim/libbsprim.a"
+    include.install_symlink Dir[libexec/"lib/Bluesim/*.h"]
   end
 
   test do
