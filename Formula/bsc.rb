@@ -30,9 +30,9 @@ class Bsc < Formula
                     "split",
                     "syb"
 
-    store_dir = `cabal path --store-dir`.chomp
-    ghc_version = `ghc --numeric-version`.chomp
-    package_db = `echo #{store_dir}/ghc-#{ghc_version}*/package.db`.chomp
+    store_dir = Utils.safe_popen_read("cabal", "path", "--store-dir").chomp
+    ghc_version = Utils.safe_popen_read("ghc", "--numeric-version").chomp
+    package_db = "#{store_dir}/ghc-#{ghc_version}-inplace/package.db"
 
     with_env(
       PREFIX:           libexec,
